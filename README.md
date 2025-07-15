@@ -1,68 +1,103 @@
 # Leave Tracking System
 
-A Java-based application for managing employee leave requests using object-oriented programming principles.
+A Java-based application for managing employee leave requests using advanced object-oriented programming principles including inheritance, polymorphism, interfaces, and inner classes.
 
 ## Features
 
-- Employee management with leave balances
-- Leave request submission and tracking
-- Multiple leave types (Annual, Sick, etc.)
-- Request status tracking (Pending/Approved/Rejected)
-- Automatic calculation of leave days
+- **Employee Management**
 
-## Class Structure
+  - Track leave balances (annual, sick, etc.)
+  - Deduct leaves automatically upon approval
+  - Department-specific information
 
-### 1. Employee Class
+- **Leave Request System**
 
-- Stores employee information (ID, name, department)
-- Tracks leave balances (annual and sick leave)
-- Methods to view and update employee data
+  - Multiple leave types with specialized validation
+  - Sick leave (requires medical certificate for >3 days)
+  - Annual leave
+  - Maternity/Paternity leave (future implementation)
+  - Unpaid leave
 
-### 2. LeaveRequest Class
+- **Approval Workflow**
 
-- Manages leave request details
-- Uses enums for leave types and statuses
-- Calculates number of leave days between dates
-- Tracks request reason and approval status
+  - Standardized approval interface
+  - Status tracking with history
+  - Automatic balance deduction
+
+- **Advanced Features**
+  - Polymorphic request processing
+  - Status change history (using inner classes)
+  - Abstract base class for common functionality
+
+## Enhanced Class Structure
+
+### Core Classes
+
+1. **Employee**
+
+   - Stores employee information
+   - Manages leave balances
+   - Handles leave deductions
+
+2. **LeaveRequest (Abstract)**
+
+   - Base class for all leave types
+   - Implements `Approvable` interface
+   - Contains `StatusChange` inner class
+   - Defines common fields and methods
+
+3. **SickLeaveRequest**
+
+   - Extends `LeaveRequest`
+   - Specialized medical certificate validation
+   - Custom approval logic
+
+4. **Approvable (Interface)**
+   - Standardizes approval process
+   - `approve()` and `deny()` methods
 
 ## Getting Started
 
 ### Prerequisites
 
-- Java JDK 8 or later
-- Basic Java development environment
+- Java JDK 17 or later (for modern date/time API)
+- Maven (optional)
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/leave-tracking-system.git
-   ```
+````bash
+git clone https://github.com/nomad-alt/leave-tracking-system
+cd leave-tracking-system
 
 ### Running the Application
 
 ```bash
-javac LeaveTrackingSystem.java
+javac *.java
 java LeaveTrackingSystem
-```
+````
 
 ### Example Usage
 
 ```bash
-// Create an employee
-Employee emp1 = new Employee(101, "John Doe", "Engineering", 20, 10);
+// Create employee
+Employee emp = new Employee(101, "Jane Smith", "HR", 15, 8);
 
-// Create a leave request
-LeaveRequest request1 = new LeaveRequest(
-   1,
-   emp1,
-   LeaveRequest.LeaveType.ANNUAL,
-   LocalDate.of(2023, 8, 1),
-   LocalDate.of(2023, 8, 5),
-   "Family vacation"
+// Create sick leave request
+LeaveRequest sickLeave = new SickLeaveRequest(
+    1, emp,
+    LocalDate.of(2025, 9, 1),
+    LocalDate.of(2025, 9, 3),
+    "Flu recovery",
+    false
 );
 
-// Display information
-emp1.displayEmployeeInfo();
-request1.displayLeaveRequest();
+// Process approval
+if (sickLeave.approve("HR Manager")) {
+    System.out.println("Leave approved!");
+} else {
+    System.out.println("Approval failed");
+}
+
+// View status history
+sickLeave.displayStatusHistory();
 ```
