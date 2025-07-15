@@ -65,16 +65,17 @@ A Java-based application for managing employee leave requests using advanced obj
 
 ### Installation
 
-````bash
+```bash
 git clone https://github.com/nomad-alt/leave-tracking-system
 cd leave-tracking-system
+```
 
 ### Running the Application
 
 ```bash
 javac *.java
 java LeaveTrackingSystem
-````
+```
 
 ### Example Usage
 
