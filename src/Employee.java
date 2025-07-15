@@ -1,12 +1,10 @@
 public class Employee {
-    // Attributes
-    private int employeeId;
-    private String name;
+    private final int employeeId;
+    private final String name;
     private String department;
     private int annualLeaveBalance;
     private int sickLeaveBalance;
 
-    // Constructor
     public Employee(int employeeId, String name, String department,
             int annualLeaveBalance, int sickLeaveBalance) {
         this.employeeId = employeeId;
@@ -16,7 +14,7 @@ public class Employee {
         this.sickLeaveBalance = sickLeaveBalance;
     }
 
-    // Getters and setters
+    // Getters
     public int getEmployeeId() {
         return employeeId;
     }
@@ -33,24 +31,37 @@ public class Employee {
         return annualLeaveBalance;
     }
 
-    public void setAnnualLeaveBalance(int annualLeaveBalance) {
-        this.annualLeaveBalance = annualLeaveBalance;
-    }
-
     public int getSickLeaveBalance() {
         return sickLeaveBalance;
     }
 
-    public void setSickLeaveBalance(int sickLeaveBalance) {
-        this.sickLeaveBalance = sickLeaveBalance;
+    // Setters
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    // Method to display employee information
-    public void displayEmployeeInfo() {
-        System.out.println("Employee ID: " + employeeId);
-        System.out.println("Name: " + name);
-        System.out.println("Department: " + department);
-        System.out.println("Annual Leave Balance: " + annualLeaveBalance + " days");
-        System.out.println("Sick Leave Balance: " + sickLeaveBalance + " days");
+    public void setAnnualLeaveBalance(int balance) {
+        this.annualLeaveBalance = balance;
+    }
+
+    public void setSickLeaveBalance(int balance) {
+        this.sickLeaveBalance = balance;
+    }
+
+    public void deductLeaveDays(LeaveRequest.LeaveType type, int days) {
+        switch (type) {
+            case ANNUAL -> annualLeaveBalance -= days;
+            case SICK -> sickLeaveBalance -= days;
+        }
+    }
+
+    public void displayInfo() {
+        System.out.printf("""
+                Employee ID: %d
+                Name: %s
+                Department: %s
+                Annual Leave: %d days
+                Sick Leave: %d days
+                """, employeeId, name, department, annualLeaveBalance, sickLeaveBalance);
     }
 }
