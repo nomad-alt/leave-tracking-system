@@ -38,19 +38,30 @@ public abstract class LeaveRequest implements Approvable {
         return (int) startDate.datesUntil(endDate.plusDays(1)).count();
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
     public void displayDetails() {
         System.out.printf("""
                 Request ID: %d
-                Employee: %s
+                Employee: %s (ID: %d)
                 Leave Type: %s
                 Dates: %s to %s (%d days)
                 Status: %s
                 Reason: %s
-                """, requestId, employee.getName(), getLeaveType(),
-                startDate, endDate, getNumberOfDays(), status, reason);
+                """, requestId, employee.getName(), employee.getEmployeeId(),
+                getLeaveType(), startDate, endDate, getNumberOfDays(), status, reason);
     }
 
-    // Inner class for status tracking
     public class StatusChange {
         private final String fromStatus;
         private final String toStatus;
@@ -81,11 +92,13 @@ public abstract class LeaveRequest implements Approvable {
 
     @Override
     public boolean approve(String approver) {
-        if (!isValid())
+        if (!isValid()) {
             return false;
+        }
         recordStatusChange(status.toString(), Status.APPROVED.toString(), approver);
         status = Status.APPROVED;
         employee.deductLeaveDays(getLeaveType(), getNumberOfDays());
+        employee.addLeaveRequest(this);
         return true;
     }
 
@@ -93,6 +106,7 @@ public abstract class LeaveRequest implements Approvable {
     public boolean deny(String approver, String reason) {
         recordStatusChange(status.toString(), Status.REJECTED.toString(), approver);
         status = Status.REJECTED;
+        employee.addLeaveRequest(this);
         return true;
     }
 }

@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee {
     private final int employeeId;
     private final String name;
     private String department;
     private int annualLeaveBalance;
     private int sickLeaveBalance;
+    private final List<LeaveRequest> leaveHistory = new ArrayList<>();
 
     public Employee(int employeeId, String name, String department,
             int annualLeaveBalance, int sickLeaveBalance) {
@@ -35,6 +39,10 @@ public class Employee {
         return sickLeaveBalance;
     }
 
+    public List<LeaveRequest> getLeaveHistory() {
+        return leaveHistory;
+    }
+
     // Setters
     public void setDepartment(String department) {
         this.department = department;
@@ -48,10 +56,15 @@ public class Employee {
         this.sickLeaveBalance = balance;
     }
 
+    public void addLeaveRequest(LeaveRequest request) {
+        leaveHistory.add(request);
+    }
+
     public void deductLeaveDays(LeaveRequest.LeaveType type, int days) {
         switch (type) {
             case ANNUAL -> annualLeaveBalance -= days;
             case SICK -> sickLeaveBalance -= days;
+            default -> throw new IllegalArgumentException("Unexpected value: " + type);
         }
     }
 
