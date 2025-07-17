@@ -1,0 +1,5 @@
+RequestID,EmployeeID,StartDate,EndDate,Reason,Status,Type,MedicalCertificate
+1,101,2025-07-18,2025-07-20,Flu,APPROVED,SICK,false
+2,102,2025-07-22,2025-07-27,Vacation,APPROVED,ANNUAL,false
+3,101,2025-07-18,2025-07-20,Flu,APPROVED,SICK,false
+4,102,2025-07-22,2025-07-27,Vacation,APPROVED,ANNUAL,false

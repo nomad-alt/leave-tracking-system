@@ -1,8 +1,10 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LeaveRequest implements Approvable {
+public abstract class LeaveRequest implements Approvable, Serializable {
+    private static final long serialVersionUID = 1L;
     protected final int requestId;
     protected final Employee employee;
     protected final LocalDate startDate;
@@ -48,6 +50,18 @@ public abstract class LeaveRequest implements Approvable {
 
     public Employee getEmployee() {
         return employee;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public String getReason() {
+        return reason;
     }
 
     public void displayDetails() {

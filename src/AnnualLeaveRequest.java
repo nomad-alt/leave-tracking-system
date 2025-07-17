@@ -22,6 +22,6 @@ public class AnnualLeaveRequest extends LeaveRequest {
             System.out.println("Annual leave cannot exceed 14 days at once");
             return false;
         }
-        return true;
+        return employee.getAnnualLeaveBalance() >= getNumberOfDays();
     }
 }

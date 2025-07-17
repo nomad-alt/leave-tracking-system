@@ -10,6 +10,10 @@ public class SickLeaveRequest extends LeaveRequest {
         this.hasMedicalCertificate = hasMedicalCertificate;
     }
 
+    public boolean hasMedicalCertificate() {
+        return hasMedicalCertificate;
+    }
+
     @Override
     public LeaveType getLeaveType() {
         return LeaveType.SICK;
@@ -17,15 +21,9 @@ public class SickLeaveRequest extends LeaveRequest {
 
     @Override
     public boolean isValid() {
-        int days = getNumberOfDays();
-        if (days > 3 && !hasMedicalCertificate) {
-            System.out.println("Medical certificate required for sick leave > 3 days");
-            return false;
+        if (hasMedicalCertificate) {
+            return true;
         }
-        if (employee.getSickLeaveBalance() < days) {
-            System.out.println("Insufficient sick leave balance");
-            return false;
-        }
-        return true;
+        return getNumberOfDays() <= 3;
     }
 }

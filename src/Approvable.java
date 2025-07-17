@@ -1,5 +1,5 @@
 public interface Approvable {
-    boolean approve(String approverName);
+    boolean approve(String approver);
 
-    boolean deny(String approverName, String reason);
+    boolean deny(String approver, String reason);
 }
